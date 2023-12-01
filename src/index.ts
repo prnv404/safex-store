@@ -1,18 +1,56 @@
-import fs from "fs/promises";
+import { Low } from "lowdb";
+import { JSONFile } from "lowdb/node";
 
 enum CONSTANTS {
-  FILEPATH = "./database.json",
+	FILEPATH = "./db.json"
 }
 
-type envData = {
-  [key: string]: string;
+/**
+ * Represents a credential object with properties for key name, value, and category.
+ */
+export type CRED = {
+	keyName: string;
+	value: string;
+	category: string;
 };
 
-const appendData = async function (data: envData) {
-  const rawData = await fs.readFile(CONSTANTS.FILEPATH, "utf-8");
-  const fileData = JSON.parse(rawData) as envData;
-  Object.assign(fileData, data);
-  const updatedData = JSON.stringify(fileData);
-  await fs.writeFile(CONSTANTS.FILEPATH, updatedData, "utf-8");
+/**
+ * The DataType type is an object that contains an array of CRED objects called keys.
+ */
+export type DataType = {
+	keys: CRED[];
 };
 
+const db = new Low(new JSONFile<DataType>(CONSTANTS.FILEPATH), { keys: [] });
+
+/**
+ * Helper Methods
+ */
+
+/**
+ * The function appends data to a database and writes the changes.
+ * @param {CRED} data - The `data` parameter is of type `CRED`.
+ */
+const appendData = async function (data: CRED) {
+	db.data.keys.push(data);
+	await db.write();
+};
+
+/**
+ * The function searches for a given search key in a database and returns an array of matching CRED
+ * objects, a single CRED object, or undefined if no match is found..
+ */
+const searchKey = function (searchKey: string): CRED[] | CRED | undefined {
+	const data = db.data;
+	const result = data.keys.filter((_key: CRED) => _key.keyName.startsWith(searchKey));
+	return result;
+};
+
+/**
+ * The function searches for keys in a database based on a given category.
+ */
+const searchKeyWithCategory = function (category: string): CRED[] | undefined {
+	const data = db.data;
+	const result = data.keys.filter((_key) => _key.category.startsWith(category));
+	return result;
+};
