@@ -1,0 +1,21 @@
+{
+  "name": "envstore",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.5.8",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@types/yargs": "^17.0.32",
+    "chalk": "^5.3.0",
+    "figlet": "^1.7.0",
+    "yargs": "^17.7.2"
+  }
+}
