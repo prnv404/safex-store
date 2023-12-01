@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+import fs from "fs/promises";
 
 enum CONSTANTS {
   FILEPATH = "./database.json",
