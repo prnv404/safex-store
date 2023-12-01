@@ -29,7 +29,6 @@ const db = new Low(new JSONFile<DataType>(CONSTANTS.FILEPATH), { keys: [] });
 
 /**
  * The function appends data to a database and writes the changes.
- * @param {CRED} data - The `data` parameter is of type `CRED`.
  */
 const appendData = async function (data: CRED) {
 	db.data.keys.push(data);
