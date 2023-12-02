@@ -1,20 +1,33 @@
 {
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
-		"stripInternal": true,
-		"importHelpers": false,
-		"strictNullChecks": true,
-		"noImplicitAny": false,
+		"target": "es2022",
+		"module": "es2022",
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
 		"declaration": true,
-		"declarationDir": "dist",
+		"sourceMap": true,
+		"allowSyntheticDefaultImports": true,
+		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
-		"sourceMap": true,
-		"lib": ["dom", "es2015", "es5"],
-		"outDir": "dist"
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"baseUrl": "./",
+		"typeRoots": ["node_modules/@types", "types"],
+		"paths": {
+			"@types": ["src/types"],
+			"@commands": ["src/commands"],
+			"@utils": ["src/utils"],
+			"@cli": ["src/cli"],
+			"@storage": ["src/storage"]
+		}
 	},
-	"include": ["src/index.ts", "src/cli.ts", "src/trie.ts"],
-	"exclude": ["node_modules"]
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "dist"]
 }

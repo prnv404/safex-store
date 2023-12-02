@@ -1,44 +1,13 @@
-import { Low } from "lowdb";
-import { JSONFile } from "lowdb/node";
-
-enum CONSTANTS {
-	FILEPATH = "./db.json"
-}
-
-export type CRED = {
-	keyName: string;
-	value: string;
-	category: string;
-};
-
-
-export type DataType = {
-	keys: CRED[];
-};
-
-const db = new Low(new JSONFile<DataType>(CONSTANTS.FILEPATH), { keys: [] });
-
 /**
- * Helper Methods
+ * TODO:
+
+ *  1.Insert Key 
+ *  2.Search 
+ *      1.based on keyname | category
+ *      2.rejex and prefix matching
+ *      3.Table Cli View of Matching Keys
+ *  3.Local storage or Remote sotrage eg:Mongodb Atlas
+ *  4.Encrypt the key before Storing and Decrypt the key
+ *  5.Update and Delete key | category
+ *  6.Clean out all Data 
  */
-
-
-const appendData = async function (data: CRED) {
-	db.data.keys.push(data);
-	await db.write();
-};
-
-
-const searchKey = function (searchKey: string): CRED[] | CRED | undefined {
-	const data = db.data;
-	data.keys.entries
-	const result = data.keys.filter((_key: CRED) => _key.keyName.startsWith(searchKey));
-	return result;
-};
-
-
-const searchKeyWithCategory = function (category: string): CRED[] | undefined {
-	const data = db.data;
-	const result = data.keys.filter((_key) => _key.category.startsWith(category));
-	return result;
-};
