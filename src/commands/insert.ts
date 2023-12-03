@@ -1,4 +1,6 @@
-class InsertCommand {
+import { ICommand } from "@types";
+
+export class InsertCommand implements ICommand {
 	private _receiver: any;
 	private _data: any;
 
@@ -13,6 +15,5 @@ class InsertCommand {
 
 	undo() {
 		this._receiver.delete(this._data);
-    }
-    
+	}
 }

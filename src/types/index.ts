@@ -7,3 +7,8 @@ export type CRED = {
 export type DataType = {
 	keys: CRED[];
 };
+
+export interface ICommand {
+	execute(): void;
+	undo(): void;
+}
