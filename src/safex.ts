@@ -17,7 +17,4 @@ const argv = await yargs(hideBin(process.argv))
 	})
 	.parse();
 
-const options = {
-	searchKey: argv.search,
-	category: argv.category
-};
+	argv
