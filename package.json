@@ -7,7 +7,8 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc",
-		"start": "tsx src/index.ts"
+		"start": "tsx src/index.ts",
+		"prettier":"prettier --write ."
 	},
 	"repository": {
 		"type": "git",
@@ -30,6 +31,9 @@
 	},
 	"bin": {
 		"safex": "bin/safex"
+	},
+	"engines": {
+		"node": ">=18.0.0"
 	},
 	"license": "ISC"
 }

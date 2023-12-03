@@ -1,6 +1,7 @@
 import { ICommand } from "@types";
 
 export class InsertCommand implements ICommand {
+	
 	private _receiver: any;
 	private _data: any;
 
