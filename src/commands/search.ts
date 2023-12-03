@@ -1,19 +1,15 @@
 class SearchCommand {
-	private _receiver: any;
-	private _data: any;
+	private _receiver: any
+	private _data: any
 
 	constructor(receiver: any, data: any) {
-		this._receiver = receiver;
-		this._data = data;
+		this._receiver = receiver
+		this._data = data
 	}
 
 	execute() {
-		this._receiver.insert(this._data);
-	}
-
-	undo() {
-		this._receiver.delete(this._data);
+		this._receiver.insert(this._data)
 	}
 }
 
-export { SearchCommand };
+export { SearchCommand }

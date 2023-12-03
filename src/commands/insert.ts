@@ -14,7 +14,5 @@ export class InsertCommand implements ICommand {
 		this._receiver.insert(this._data);
 	}
 
-	undo() {
-		this._receiver.delete(this._data);
-	}
+	
 }

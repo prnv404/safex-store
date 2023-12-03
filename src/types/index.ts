@@ -10,7 +10,6 @@ export type DataType = {
 
 export interface ICommand {
 	execute(): void
-	undo(): void
 }
 
 export interface Database {
