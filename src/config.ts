@@ -1,18 +1,18 @@
 import { Low } from "lowdb"
-import { CONSTANTS, InitConfig } from "@types"
+import { Configuration, FilePaths } from "@types"
 import { YamlAdapter } from "@utils"
 
-const adapter = new YamlAdapter(CONSTANTS.YAMLPATH)
+const adapter = new YamlAdapter(FilePaths.YAML_DATA)
 
 const YamlConfig = new Low(adapter, {})
 
-export const InitializeSafeX = async (options: InitConfig) => {
+export const InitializeSafeX = async (options: Configuration) => {
 	try {
-		const config: InitConfig = {
-			mongodb: options.mongodb ? true : false,
-			mongoDbUrl: options.mongodb ? options.mongoDbUrl : undefined,
-			encryption: options.encryption ? true : false,
-			encryptionKey: options.encryption ? options.encryptionKey : undefined
+		const config: Configuration = {
+			useMongoDB: options.useMongoDB ? true : false,
+			mongoDbUrl: options.mongoDbUrl ? options.mongoDbUrl : undefined,
+			useEncryption: options.useEncryption ? true : false,
+			encryptionKey: options.encryptionKey ? options.encryptionKey : undefined
 		}
 		await YamlConfig.adapter.write(config)
 	} catch (e) {

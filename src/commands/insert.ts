@@ -1,6 +1,6 @@
-import { ICommand } from "@types";
+import { Command } from "@types";
 
-export class InsertCommand implements ICommand {
+export class InsertCommand implements Command {
 	
 	private _receiver: any;
 	private _data: any;

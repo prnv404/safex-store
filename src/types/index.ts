@@ -1,30 +1,30 @@
-export type CRED = {
+export type Credential = {
 	keyName: string
 	value: string
 	category: string
 }
 
-export type DataType = {
-	keys: CRED[]
+export type KeyData = {
+	credentials: Credential[]
 }
 
-export interface ICommand {
+export interface Command {
 	execute(): void
 }
 
-export interface Database {
-	insert(data: CRED): Promise<boolean>
-	delete(searchKey: string): Promise<boolean>
+export interface DataStorage {
+	insert(credential: Credential): Promise<boolean>
+	delete(searchKeyName: string): Promise<boolean>
 }
 
-export enum CONSTANTS {
-	JSONPATH = "../../db.json",
-	YAMLPATH = "../../init.yaml"
+export enum FilePaths {
+	JSON_DATA = "../../db.json",
+	YAML_DATA = "../../init.yaml"
 }
 
-export type InitConfig = {
-	mongodb: boolean
+export type Configuration = {
+	useMongoDB: boolean
 	mongoDbUrl?: string
-	encryption: boolean
+	useEncryption: boolean
 	encryptionKey?: string
 }

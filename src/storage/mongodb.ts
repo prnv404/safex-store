@@ -1,5 +1,5 @@
-import mongoose, { Document, Model } from "mongoose";
-import { CRED, Database } from "@types";
+import mongoose, { Document, Model } from "mongoose"
+import { DataStorage, Credential } from "@types"
 
 const KeyStoreSchema = new mongoose.Schema(
 	{
@@ -19,29 +19,27 @@ const KeyStoreSchema = new mongoose.Schema(
 	{
 		toJSON: {
 			transform(doc, ret) {
-				delete ret._id;
+				delete ret._id
 			}
 		}
 	}
-);
+)
 
-const keyStore = mongoose.model<Document & CRED>("KeyStore", KeyStoreSchema);
+const keyStore = mongoose.model<Document & Credential>("KeyStore", KeyStoreSchema)
 
-
-export class Mongodb implements Database {
-	
-	private keystore: Model<Document & CRED>;
+export class Mongodb implements DataStorage {
+	private keystore: Model<Document & Credential>
 
 	constructor() {
-		this.keystore = keyStore;
+		this.keystore = keyStore
 	}
 
-	async insert(data: CRED): Promise<boolean> {
+	async insert(data: Credential): Promise<boolean> {
 		try {
-			await this.keystore.create(data);
-			return true;
+			await this.keystore.create(data)
+			return true
 		} catch (e) {
-			return false;
+			return false
 		}
 	}
 
@@ -56,10 +54,10 @@ export class Mongodb implements Database {
 						keyName: searchKey
 					}
 				]
-			});
-			return true;
+			})
+			return true
 		} catch (e) {
-			return false;
+			return false
 		}
 	}
 }
