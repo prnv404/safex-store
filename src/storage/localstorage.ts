@@ -1,11 +1,12 @@
+import fs from "fs"
 import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
 import { Credential, DataStorage, FilePaths, KeyData } from "@types"
 import { encrypt } from "@utils"
 import { Config } from "@config"
-import fs from "fs"
 
 export class LocalDatabase implements DataStorage {
+	
 	private db: Low<KeyData>
 
 	constructor() {

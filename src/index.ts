@@ -39,6 +39,10 @@ export const deletKey = async (keyname: string) => {
 	await deletCommand.execute()
 }
 
+export const searchkey = async (keyname:string) =>{
+	
+}
+
 // await insertKey({ keyName: "key1", category: "default", value: "myvalue" })
 // await insertKey({ keyName: "key2", category: "default", value: "valeuess" })
 // await insertKey({ keyName: "key4", category: "default", value: "myvalue" })
