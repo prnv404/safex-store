@@ -1,17 +1,3 @@
-/**
- * TODO:
- *
- *  1.Local storage or Remote sotrage eg:Mongodb Atlas✅
- *  2.Insert Key ✅
- *  3.Delete Key ✅
- *  4.Encrypt the key before Storing and Decrypt the key✅
- *  5.Search
- *      1.based on keyname | category
- *      2.rejex and prefix matching
- * 	6.Table Cli View of Matching Keys
- *  7.Clean out all Data
- */
-
 import { Config } from "@config"
 import { InsertCommand } from "./commands/insert"
 import { Mongodb } from "./storage/mongodb"
