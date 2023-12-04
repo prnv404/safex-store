@@ -45,7 +45,6 @@ const KeyStoreSchema = new mongoose.Schema(
 const keyStore = mongoose.model<Document & Credential>("KeyStore", KeyStoreSchema)
 
 export class Mongodb implements DataStorage {
-	
 	private keystore: Model<Document & Credential>
 
 	constructor() {
@@ -81,5 +80,9 @@ export class Mongodb implements DataStorage {
 		} catch (e) {
 			return false
 		}
+	}
+
+	async searchKey(searchKey: string, prefix: boolean): Promise<Credential[]> {
+		return []
 	}
 }

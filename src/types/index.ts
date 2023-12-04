@@ -15,6 +15,7 @@ export interface Command {
 export interface DataStorage {
 	insert(credential: Credential): Promise<boolean>
 	delete(searchKeyName: string): Promise<boolean>
+	searchKey(searchKey: string, prefix: boolean): Promise<Credential[] | boolean>
 }
 
 export enum FilePaths {

@@ -2,11 +2,10 @@ import fs from "fs"
 import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
 import { Credential, DataStorage, FilePaths, KeyData } from "@types"
-import { encrypt } from "@utils"
-import { Config } from "@config"
+import { decryptAllKey, encrypt } from "@utils"
+import { CONFIG } from "@config"
 
 export class LocalDatabase implements DataStorage {
-	
 	private db: Low<KeyData>
 
 	constructor() {
@@ -30,7 +29,7 @@ export class LocalDatabase implements DataStorage {
 
 	async insert(data: Credential): Promise<boolean> {
 		try {
-			data.value = await encrypt(data.value, Config.encryptionKey!)
+			data.value = await encrypt(data.value, CONFIG.encryptionKey!)
 			this.db.data.credentials.push(data)
 			await this.db.write()
 			return true
@@ -53,6 +52,24 @@ export class LocalDatabase implements DataStorage {
 			await this.db.write()
 			return this.db.data.credentials.length !== length
 		} catch (e) {
+			return false
+		}
+	}
+
+	async searchKey(searchkey: string, isPrefixSearch: boolean): Promise<Credential[] | boolean> {
+		try {
+			const filteredCredentials = this.db.data.credentials.filter((credential) => {
+				const keyNameLower = credential.keyName.toLowerCase()
+
+				if (isPrefixSearch) {
+					return keyNameLower.startsWith(searchkey)
+				} else {
+					return keyNameLower === searchkey
+				}
+			})
+			return await decryptAllKey(filteredCredentials)
+		} catch (e) {
+			console.log(e)
 			return false
 		}
 	}

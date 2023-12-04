@@ -14,4 +14,3 @@ export class DeleteCommand implements Command {
 		await this._receiver.delete(this._data)
 	}
 }
-

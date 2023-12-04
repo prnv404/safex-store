@@ -24,4 +24,4 @@ export const GetConfigurationData = async (): Promise<Configuration> => {
 	return (await YamlConfig.adapter.read()) as Configuration
 }
 
-export const Config: Configuration = await GetConfigurationData()
+export const CONFIG: Configuration = await GetConfigurationData()
