@@ -6,12 +6,11 @@ import { Config } from "@config"
 import fs from "fs"
 
 export class LocalDatabase implements DataStorage {
-	
 	private db: Low<KeyData>
 
 	constructor() {
 		const result = this.init()
-		let data: any
+		let data: Credential[]
 		typeof result === "boolean" ? (data = []) : (data = result)
 		const adapter = new JSONFile<KeyData>(FilePaths.JSON_DATA)
 		this.db = new Low(adapter, { credentials: data })
