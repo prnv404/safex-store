@@ -5,14 +5,14 @@
 ## Task Checklist
 
 1. **Storage Options**
-    - [✅] Local storage implemented
-    - [✅] Remote storage implemented (e.g., MongoDB Atlas)
+    - [x] Local storage implemented
+    - [x] Remote storage implemented (e.g., MongoDB Atlas)
 
 2. **Key Operations**
-    - [✅] Insert Key functionality
-    - [✅] Delete Key functionality
-    - [✅] Encryption of keys before storing
-    - [✅] Decryption of keys when retrieving
+    - [x] Insert Key functionality
+    - [x] Delete Key functionality
+    - [x] Encryption of keys before storing
+    - [x] Decryption of keys when retrieving
 
 3. **Search Functionality**
     - [ ] Search based on key name or category
