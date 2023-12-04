@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import yargs from "yargs";
-import { hideBin } from "yargs/helpers";
+import yargs from "yargs"
+import { hideBin } from "yargs/helpers"
 
 const argv = await yargs(hideBin(process.argv))
 	.option("search", {
@@ -15,6 +15,6 @@ const argv = await yargs(hideBin(process.argv))
 		default: "default",
 		type: "string"
 	})
-	.parse();
+	.parse()
 
-	argv
+argv

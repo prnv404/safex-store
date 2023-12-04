@@ -18,8 +18,8 @@ export interface DataStorage {
 }
 
 export enum FilePaths {
-	JSON_DATA = "../../db.json",
-	YAML_DATA = "../../init.yaml"
+	JSON_DATA = "../db.json",
+	YAML_DATA = "../init.yaml"
 }
 
 export type Configuration = {

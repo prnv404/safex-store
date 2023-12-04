@@ -19,3 +19,9 @@ export const InitializeSafeX = async (options: Configuration) => {
 		console.log(e)
 	}
 }
+
+export const GetConfigurationData = async (): Promise<Configuration> => {
+	return (await YamlConfig.adapter.read()) as Configuration
+}
+
+export const Config: Configuration = await GetConfigurationData()

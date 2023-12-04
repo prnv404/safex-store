@@ -11,3 +11,44 @@
  *  5.Update and Delete key | category
  *  6.Clean out all Data 
  */
+
+import { Config } from "@config"
+import { InsertCommand } from "./commands/insert"
+import { Mongodb } from "./storage/mongodb"
+import { LocalDatabase } from "./storage/localstorage"
+import { Credential } from "@types"
+import { DeleteCommand } from "./commands/delete"
+
+let localDatabase: LocalDatabase | undefined
+export const insertKey = async (data: Credential) => {
+	let insertCommand: InsertCommand
+
+	if (!localDatabase) {
+		localDatabase = new LocalDatabase()
+	}
+
+	Config.useMongoDB
+		? (insertCommand = new InsertCommand(new Mongodb(), data))
+		: (insertCommand = new InsertCommand(localDatabase, data))
+
+	await insertCommand.execute()
+}
+
+export const deletKey = async (keyname: string) => {
+	let deletCommand: DeleteCommand
+	if (!localDatabase) {
+		localDatabase = new LocalDatabase()
+	}
+	Config.useMongoDB
+		? (deletCommand = new DeleteCommand(new Mongodb(), keyname))
+		: (deletCommand = new DeleteCommand(localDatabase, keyname))
+
+	await deletCommand.execute()
+}
+
+// await insertKey({ keyName: "key1", category: "default", value: "myvalue" })
+// await insertKey({ keyName: "key2", category: "default", value: "valeuess" })
+// await insertKey({ keyName: "key4", category: "default", value: "myvalue" })
+
+
+// await deletkey('key1)

@@ -1,18 +1,16 @@
-import { Command } from "@types";
+import { LocalDatabase, Mongodb } from "@storage"
+import { Command, Credential } from "@types"
 
 export class InsertCommand implements Command {
-	
-	private _receiver: any;
-	private _data: any;
+	private _receiver: LocalDatabase | Mongodb
+	private _data: Credential
 
-	constructor(receiver: any, data: any) {
-		this._receiver = receiver;
-		this._data = data;
+	constructor(receiver: LocalDatabase | Mongodb, data: Credential) {
+		this._receiver = receiver
+		this._data = data
 	}
 
-	execute() {
-		this._receiver.insert(this._data);
+	async execute() {
+		await this._receiver.insert(this._data)
 	}
-
-	
 }
