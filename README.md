@@ -17,14 +17,15 @@
 
 3. **Search Functionality**
     - [x] Search based on key name
-    - [x] Implement regex and prefix matching
+    - [x] case insensitve search
+    - [x] auto suggestion search
 
 4. **Data Management**
     - [x] Reset and flush out all data 
 
 5. **CLI View**
     - [ ] safex intro
-    - [ ] initializing promts
+    - [x] initializing promts
     - [ ] Display matching keys in a table format
 
 
