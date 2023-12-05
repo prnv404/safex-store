@@ -11,6 +11,6 @@ export class InsertCommand implements Command {
 	}
 
 	async execute() {
-		await this._receiver.insert(this._data)
+		return await this._receiver.insert(this._data)
 	}
 }

@@ -6,13 +6,14 @@ const adapter = new YamlAdapter(FilePaths.YAML_DATA)
 
 const YamlConfig = new Low(adapter, {})
 
-export const InitializeSafeX = async (options: Configuration) => {
+export const InitializeConfig = async (options: Configuration) => {
 	try {
 		const config: Configuration = {
 			useMongoDB: options.useMongoDB ? true : false,
 			mongoDbUrl: options.mongoDbUrl ? options.mongoDbUrl : undefined,
 			useEncryption: options.useEncryption ? true : false,
-			encryptionKey: options.encryptionKey ? options.encryptionKey : undefined
+			encryptionKey: options.encryptionKey ? options.encryptionKey : undefined,
+			name: options.name
 		}
 		await YamlConfig.adapter.write(config)
 	} catch (e) {
@@ -20,8 +21,6 @@ export const InitializeSafeX = async (options: Configuration) => {
 	}
 }
 
-export const GetConfigurationData = async (): Promise<Configuration> => {
+export const LoadConfigurationData = async (): Promise<Configuration> => {
 	return (await YamlConfig.adapter.read()) as Configuration
 }
-
-export const CONFIG: Configuration = await GetConfigurationData()

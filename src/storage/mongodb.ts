@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from "mongoose"
 import { DataStorage, Credential } from "@types"
-import { CONFIG } from "@config"
 import { decryptAllKey, encrypt } from "@utils"
+import { CONFIG } from "src"
 
 export const connectMongodb = async (url: string) => {
 	try {
@@ -43,7 +43,7 @@ const KeyStoreSchema = new mongoose.Schema(
 	},
 	{
 		toJSON: {
-			transform(doc, ret) {
+			transform(doc, ret:any) {
 				delete ret._id
 				delete ret.__v
 			}
@@ -91,12 +91,10 @@ export class Mongodb implements DataStorage {
 		}
 	}
 
-	async searchKey(searchKey: string, prefix: boolean): Promise<Credential[]> {
+	async searchKey(searchKey: string): Promise<Credential[]> {
 		try {
 			await connectMongodb(CONFIG.mongoDbUrl!)
-			let query: any = {}
-			if (prefix) query = { keyName: { $regex: `^${searchKey}` } }
-			else query = { keyName: { $eq: new RegExp(searchKey, "i") } }
+			const query = { keyName: { $eq: new RegExp(searchKey, "i") } }
 			const results = await this.keystore.find(query)
 			const transformedResults = results.map((doc) => doc.toJSON())
 			return await decryptAllKey(transformedResults)
@@ -107,14 +105,31 @@ export class Mongodb implements DataStorage {
 			await disConnectDb()
 		}
 	}
-	async getCategoryItem(category: string): Promise<Credential[] | boolean> {
+
+	async getAllKey(): Promise<string[]> {
+		try {
+			await connectMongodb(CONFIG.mongoDbUrl!)
+			const results = await this.keystore.find({})
+			const transformedResults = results.map((doc) => {
+				return doc.keyName
+			})
+			return transformedResults
+		} catch (e) {
+			console.log(e)
+			return []
+		} finally {
+			await disConnectDb()
+		}
+	}
+
+	async getCategoryItem(category: string): Promise<Credential[]> {
 		try {
 			await connectMongodb(CONFIG.mongoDbUrl!)
 			const result = await this.keystore.find({ category: new RegExp(category, "i") })
 			return await decryptAllKey(result)
 		} catch (e) {
 			console.log(e)
-			return false
+			return []
 		} finally {
 			await disConnectDb()
 		}

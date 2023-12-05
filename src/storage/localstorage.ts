@@ -3,7 +3,7 @@ import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
 import { Credential, DataStorage, FilePaths, KeyData } from "@types"
 import { decryptAllKey, encrypt } from "@utils"
-import { CONFIG } from "@config"
+import { CONFIG } from "src"
 
 export class LocalDatabase implements DataStorage {
 	private db: Low<KeyData>
@@ -56,25 +56,31 @@ export class LocalDatabase implements DataStorage {
 		}
 	}
 
-	async searchKey(searchkey: string, isPrefixSearch: boolean): Promise<Credential[] | boolean> {
+	async searchKey(searchkey: string): Promise<Credential[]> {
 		try {
 			const filteredCredentials = this.db.data.credentials.filter((credential) => {
 				const keyNameLower = credential.keyName.toLowerCase()
-
-				if (isPrefixSearch) {
-					return keyNameLower.startsWith(searchkey)
-				} else {
-					return keyNameLower === searchkey
-				}
+				return keyNameLower === searchkey
 			})
 			return await decryptAllKey(filteredCredentials)
 		} catch (e) {
 			console.log(e)
-			return false
+			return []
 		}
 	}
 
-	async getCategoryItem(category: string): Promise<boolean | Credential[]> {
+	async getAllKey(): Promise<string[]> {
+		try {
+			const result = this.db.data.credentials
+			const transformtedresult = result.map((doc) => doc.keyName)
+			return transformtedresult
+		} catch (e) {
+			console.log(e)
+			return []
+		}
+	}
+
+	async getCategoryItem(category: string): Promise<Credential[]> {
 		try {
 			const filteredCredentials = this.db.data.credentials.filter(
 				(cred) => cred.category.toLowerCase() == category.toLowerCase()
@@ -82,7 +88,7 @@ export class LocalDatabase implements DataStorage {
 			return await decryptAllKey(filteredCredentials)
 		} catch (e) {
 			console.log(e)
-			return false
+			return []
 		}
 	}
 

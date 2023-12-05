@@ -1,45 +1,46 @@
-import { CONFIG } from "@config"
-import { Credential } from "@types"
-import { DeleteCommand, InsertCommand, SearchCommand } from "@commands"
-import { LocalDatabase, Mongodb } from "@storage"
+import { LoadConfigurationData, InitializeConfig } from "@config"
+import { Configuration } from "@types"
+import {
+	MongodbUrlPompt,
+	NameInputPrompt,
+	SecretKeyInputPrompt,
+	SelectStoragePrompt,
+	SearchAutoCompletePrompt
+} from "@cli"
+import { getallKey, searchkey } from "./invoker"
 
-export const insertKey = async (data: Credential) => {
-	let insertCommand: InsertCommand
-
-	CONFIG.useMongoDB
-		? (insertCommand = new InsertCommand(new Mongodb(), data))
-		: (insertCommand = new InsertCommand(new LocalDatabase(), data))
-
-	await insertCommand.execute()
+// Initializing
+export const initializeSafeX = async () => {
+	let config: Configuration = {
+		useMongoDB: false,
+		useEncryption: false,
+		name: ""
+	}
+	config.name = await NameInputPrompt().run()
+	const storageChoice = await SelectStoragePrompt().run()
+	if (storageChoice !== "LocalStorage") {
+		config.useMongoDB = true
+		config.mongoDbUrl = await MongodbUrlPompt().run()
+	}
+	config.useEncryption = true
+	config.encryptionKey = await SecretKeyInputPrompt().run()
+	await InitializeConfig(config)
 }
 
-export const deletKey = async (keyname: string) => {
-	let deletCommand: DeleteCommand
-
-	CONFIG.useMongoDB
-		? (deletCommand = new DeleteCommand(new Mongodb(), keyname))
-		: (deletCommand = new DeleteCommand(new LocalDatabase(), keyname))
-
-	await deletCommand.execute()
+export const search = async (name: string) => {
+	searchkey(name)
 }
 
-export const searchkey = async (keyname: string, prefix: boolean = false) => {
-	let searchCommand: SearchCommand
-
-	CONFIG.useMongoDB
-		? (searchCommand = new SearchCommand(new Mongodb(), keyname, prefix))
-		: (searchCommand = new SearchCommand(new LocalDatabase(), keyname, prefix))
-
-	await searchCommand.execute()
+export const autoSuggestion = async () => {
+	const allkeys = await getallKey()
+	const keyInput = await SearchAutoCompletePrompt(allkeys).run()
+	keyInput
 }
 
 
+export let CONFIG: Configuration
 
-// export  const
-
-
-await insertKey({ keyName: "key1", category: "default", value: "myvalue" })
-await insertKey({ keyName: "key2", category: "default", value: "valeuess" })
-await insertKey({ keyName: "key3", category: "default", value: "myvalue" })
-
-// await searchkey("key1", true)
+LoadConfigurationData().then( (value) => {
+	CONFIG = value
+	autoSuggestion()
+})

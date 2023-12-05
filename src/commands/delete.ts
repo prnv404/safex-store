@@ -11,6 +11,6 @@ export class DeleteCommand implements Command {
 	}
 
 	async execute() {
-		await this._receiver.delete(this._data)
+		return await this._receiver.delete(this._data)
 	}
 }
