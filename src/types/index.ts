@@ -9,8 +9,8 @@ export type KeyData = {
 	credentials: Credential[]
 }
 
-export interface Command {
-	execute(): void
+export interface Command<T> {
+	execute(): T
 }
 
 export interface DataStorage {

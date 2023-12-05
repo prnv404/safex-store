@@ -1,6 +1,6 @@
-import { CONFIG } from "@config"
 import { Credential } from "@types"
 import * as crypto from "crypto"
+import { CONFIG } from "src"
 
 /**
  * The `encrypt` function takes a text and a secret key, and returns a promise that resolves to the

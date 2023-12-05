@@ -1,7 +1,7 @@
-import { LocalDatabase, Mongodb } from "@storage"
+import { LocalDatabase, Mongodb } from "src/db"
 import { Command, Credential } from "@types"
 
-export class InsertCommand implements Command {
+export class InsertCommand implements Command<Promise<boolean>> {
 	private _receiver: LocalDatabase | Mongodb
 	private _data: Credential
 

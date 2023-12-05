@@ -21,10 +21,10 @@
 		"typeRoots": ["node_modules/@types", "types"],
 		"paths": {
 			"@types": ["src/types"],
-			"@commands": ["src/commands"],
+			"@cmd": ["src/cmd"],
 			"@utils": ["src/utils"],
 			"@cli": ["src/cli"],
-			"@storage": ["src/storage"],
+			"@db": ["src/db"],
 			"@config": ["src/config"]
 		}
 	},

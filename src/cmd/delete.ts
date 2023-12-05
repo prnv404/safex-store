@@ -1,7 +1,7 @@
-import { LocalDatabase, Mongodb } from "@storage"
+import { LocalDatabase, Mongodb } from "src/db"
 import { Command } from "@types"
 
-export class DeleteCommand implements Command {
+export class DeleteCommand implements Command<Promise<boolean>> {
 	private _receiver: LocalDatabase | Mongodb
 	private _data: number
 

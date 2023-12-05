@@ -1,6 +1,6 @@
 import { Credential } from "@types"
-import { AllKeyCommand, DeleteCommand, InsertCommand, SearchCommand } from "@commands"
-import { LocalDatabase, Mongodb } from "@storage"
+import { AllKeyCommand, DeleteCommand, InsertCommand, SearchCommand } from "@cmd"
+import { LocalDatabase, Mongodb } from "@db"
 import { CONFIG } from "src"
 
 /** command invokers */
