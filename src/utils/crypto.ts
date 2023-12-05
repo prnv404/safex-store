@@ -2,10 +2,7 @@ import { Credential } from "@types"
 import * as crypto from "crypto"
 import { CONFIG } from "src"
 
-/**
- * The `encrypt` function takes a text and a secret key, and returns a promise that resolves to the
- * encrypted text using AES-256-CBC encryption.
- */
+
 
 export const encrypt = (text: string, secretKey: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -23,10 +20,7 @@ export const encrypt = (text: string, secretKey: string): Promise<string> => {
 	})
 }
 
-/**
- * The `decrypt` function takes in an encrypted text and a secret key, and returns a promise that
- * resolves to the decrypted text.
- */
+
 export const decrypt = (text: string, secretKey: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
 		try {
