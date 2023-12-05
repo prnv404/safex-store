@@ -3,9 +3,9 @@ import { Command } from "@types"
 
 export class DeleteCommand implements Command {
 	private _receiver: LocalDatabase | Mongodb
-	private _data: string
+	private _data: number
 
-	constructor(receiver: LocalDatabase | Mongodb, data: any) {
+	constructor(receiver: LocalDatabase | Mongodb, data: number) {
 		this._receiver = receiver
 		this._data = data
 	}

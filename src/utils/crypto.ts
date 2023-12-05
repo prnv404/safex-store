@@ -46,9 +46,10 @@ export const decryptAllKey = async (keys: Credential[]) => {
 	return await Promise.all(
 		keys.map(async (item) => {
 			item.value = await decrypt(item.value, CONFIG.encryptionKey!)
+			console.log(item);
+			
 			return item
 		})
 	)
 }
 
-// let key = crypto.createHash("sha256").update(String(secretKey)).digest("base64").substr(0, 32)

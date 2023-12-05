@@ -1,4 +1,5 @@
 export type Credential = {
+	id?: number
 	keyName: string
 	value: string
 	category: string
@@ -14,8 +15,10 @@ export interface Command {
 
 export interface DataStorage {
 	insert(credential: Credential): Promise<boolean>
-	delete(searchKeyName: string): Promise<boolean>
+	delete(id: number): Promise<boolean>
 	searchKey(searchKey: string, prefix: boolean): Promise<Credential[] | boolean>
+	getCategoryItem(category: string): Promise<Credential[] | boolean>
+	resetDatabase(): Promise<boolean>
 }
 
 export enum FilePaths {

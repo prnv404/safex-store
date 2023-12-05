@@ -30,6 +30,8 @@ export class LocalDatabase implements DataStorage {
 	async insert(data: Credential): Promise<boolean> {
 		try {
 			data.value = await encrypt(data.value, CONFIG.encryptionKey!)
+			data.id = this.db.data.credentials.length
+			++data.id
 			this.db.data.credentials.push(data)
 			await this.db.write()
 			return true
@@ -40,15 +42,13 @@ export class LocalDatabase implements DataStorage {
 		}
 	}
 
-	async delete(searchKey: string): Promise<boolean> {
+	async delete(id: number): Promise<boolean> {
 		try {
 			const length = this.db.data.credentials.length
-			const excludeKey = (searchKey: string) => {
-				this.db.data.credentials = this.db.data.credentials.filter((k) => {
-					return k.category !== searchKey && k.keyName !== searchKey
-				})
+			const excludeKey = (id: number) => {
+				this.db.data.credentials = this.db.data.credentials.filter((k) => k.id !== id)
 			}
-			excludeKey(searchKey)
+			excludeKey(id)
 			await this.db.write()
 			return this.db.data.credentials.length !== length
 		} catch (e) {
@@ -68,6 +68,29 @@ export class LocalDatabase implements DataStorage {
 				}
 			})
 			return await decryptAllKey(filteredCredentials)
+		} catch (e) {
+			console.log(e)
+			return false
+		}
+	}
+
+	async getCategoryItem(category: string): Promise<boolean | Credential[]> {
+		try {
+			const filteredCredentials = this.db.data.credentials.filter(
+				(cred) => cred.category.toLowerCase() == category.toLowerCase()
+			)
+			return await decryptAllKey(filteredCredentials)
+		} catch (e) {
+			console.log(e)
+			return false
+		}
+	}
+
+	async resetDatabase(): Promise<boolean> {
+		try {
+			this.db.data.credentials = []
+			await this.db.write()
+			return true
 		} catch (e) {
 			console.log(e)
 			return false

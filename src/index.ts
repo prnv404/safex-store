@@ -33,8 +33,13 @@ export const searchkey = async (keyname: string, prefix: boolean = false) => {
 	await searchCommand.execute()
 }
 
-// await insertKey({ keyName: "key1", category: "default", value: "myvalue" })
-// await insertKey({ keyName: "key2", category: "default", value: "valeuess" })
-// await insertKey({ keyName: "key4", category: "default", value: "myvalue" })
 
-await searchkey("key", true)
+
+// export  const
+
+
+await insertKey({ keyName: "key1", category: "default", value: "myvalue" })
+await insertKey({ keyName: "key2", category: "default", value: "valeuess" })
+await insertKey({ keyName: "key3", category: "default", value: "myvalue" })
+
+// await searchkey("key1", true)
