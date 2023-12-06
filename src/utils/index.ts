@@ -1,7 +1,5 @@
 import * as crypto from "node:crypto"
-import { TextFile } from "lowdb/node"
-import YMAL from "yaml"
-import { Credential, Configuration } from "../types"
+import { Credential } from "../types"
 import { CONFIG } from "../config"
 
 export const encrypt = (text: string, secretKey: string): Promise<string> => {
@@ -43,4 +41,3 @@ export const decryptAllKey = async (keys: Credential[]) => {
 		})
 	)
 }
-

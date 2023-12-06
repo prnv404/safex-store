@@ -32,5 +32,5 @@ export type Configuration = {
 	mongourl: string
 	encryptionKey: string
 	name: string
-	confirm:boolean
+	confirm: boolean
 }

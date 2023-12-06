@@ -40,13 +40,13 @@ export const InitializeConfig = async (options: Configuration) => {
 	}
 }
 
-export const LoadConfigurationData = async () => {
+export let CONFIG: Configuration
+
+export const init = async () => {
 	try {
-		const result = (await YamlConfig.adapter.read()) as Configuration
-		return result
+		CONFIG = (await YamlConfig.adapter.read()) as Configuration
 	} catch (e) {
+		throw new Error("erro")
 		console.log(e)
 	}
 }
-
-export let CONFIG: Configuration = (await LoadConfigurationData()) as unknown as Configuration

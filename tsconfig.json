@@ -1,20 +1,25 @@
 {
 	"compilerOptions": {
-		"lib": ["ESNext"],
-		"module": "esnext",
-		"target": "esnext",
-		"moduleResolution": "bundler",
-		"moduleDetection": "force",
-		"allowImportingTsExtensions": true,
-		"noEmit": true,
-		"composite": true,
+		"target": "es2022",
+		"module": "es2022",
+		"outDir": "./dist",
+		"rootDir": "./src",
 		"strict": true,
-		"downlevelIteration": true,
+		"esModuleInterop": true,
 		"skipLibCheck": true,
-		"jsx": "react-jsx",
-		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
-		"allowJs": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"declaration": true,
+		"sourceMap": true,
+		"allowSyntheticDefaultImports": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"baseUrl": "./",
 		"typeRoots": ["node_modules/@types"]
-	}
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "dist"]
 }

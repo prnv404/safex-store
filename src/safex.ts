@@ -1,12 +1,13 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander"
-import { InitializeconfiPrompt } from "./cli"
+import { promptUser } from "./cli/prompts"
 import { InitializeConfig } from "./config"
 import { searchkey, deletKey, insertKey, getallKey } from "./invoker"
 import { Configuration } from "./types"
 import figlet from "figlet"
 import chalk from "chalk"
+import { printKeyToConsole, printResultasTable } from "./cli/ui"
 
 const program = new Command()
 
@@ -17,7 +18,7 @@ program
 	.description("Initialize SafeX CLI configurations")
 	.action(async () => {
 		const initializeSafeX = async () => {
-			let config = (await InitializeconfiPrompt()) as unknown as Configuration
+			let config = (await promptUser()) as unknown as Configuration
 			if (config.confirm === false) {
 				process.exit(1)
 			}
@@ -29,9 +30,13 @@ program
 
 program
 	.command("search <key>")
+	.alias("s")
 	.description("Search for a specific key")
 	.action(async (key) => {
-		await searchkey(key)
+		const result = await searchkey(key)
+		result.forEach((item) => {
+			printKeyToConsole(item.keyName, item.value)
+		})
 	})
 
 program
@@ -39,8 +44,7 @@ program
 	.description("get all key in database")
 	.action(async () => {
 		const result = await getallKey()
-		console.table(result);
-		
+		printResultasTable(result)
 	})
 
 program
