@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander"
-import { deletKey, getallKey, insertKey, searchkey } from "./invoker"
+import { deletKey, getallKey, insertKey, searchkey } from "../src/invoker"
 import { Configuration } from "@types"
 import { InitializeConfig, init } from "@config"
 import {
@@ -10,8 +10,8 @@ import {
 	MongodbUrlPompt,
 	SecretKeyInputPrompt,
 	SearchAutoCompletePrompt
-} from "./cli/promt"
-import { printLogo } from "./cli/ui"
+} from "../src/cli/promt"
+import { printLogo } from "../src/cli/ui"
 
 const program = new Command()
 

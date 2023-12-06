@@ -28,6 +28,6 @@
 			"@config": ["src/config"]
 		}
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "bin/safex.ts"],
 	"exclude": ["node_modules", "dist", ".github"]
 }
