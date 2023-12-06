@@ -1,13 +1,13 @@
 import { Credential } from "@types"
 import { AllKeyCommand, DeleteCommand, InsertCommand, SearchCommand } from "@cmd"
 import { LocalDatabase, Mongodb } from "@db"
-import { CONFIG } from "src"
+import { CONFIG, init } from "@config"
 
 /** command invokers */
 
 export const insertKey = async (data: Credential) => {
 	let insertCommand: InsertCommand
-
+	await init()
 	CONFIG.useMongoDB
 		? (insertCommand = new InsertCommand(new Mongodb(), data))
 		: (insertCommand = new InsertCommand(new LocalDatabase(), data))
@@ -16,6 +16,8 @@ export const insertKey = async (data: Credential) => {
 }
 
 export const deletKey = async (id: number) => {
+	await init()
+
 	let deletCommand: DeleteCommand
 
 	CONFIG.useMongoDB
@@ -26,16 +28,21 @@ export const deletKey = async (id: number) => {
 }
 
 export const searchkey = async (keyname: string) => {
+	await init()
+
 	let searchCommand: SearchCommand
 
 	CONFIG.useMongoDB
 		? (searchCommand = new SearchCommand(new Mongodb(), keyname))
 		: (searchCommand = new SearchCommand(new LocalDatabase(), keyname))
 
-	return await searchCommand.execute()
+	const result = await searchCommand.execute()
+	console.table(result)
 }
 
 export const getallKey = async () => {
+	await init()
+
 	let allkeyCommand: AllKeyCommand
 
 	CONFIG.useMongoDB

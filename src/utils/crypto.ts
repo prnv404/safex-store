@@ -1,8 +1,6 @@
+import { CONFIG } from "@config"
 import { Credential } from "@types"
 import * as crypto from "crypto"
-import { CONFIG } from "src"
-
-
 
 export const encrypt = (text: string, secretKey: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -19,7 +17,6 @@ export const encrypt = (text: string, secretKey: string): Promise<string> => {
 		}
 	})
 }
-
 
 export const decrypt = (text: string, secretKey: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
@@ -40,10 +37,7 @@ export const decryptAllKey = async (keys: Credential[]) => {
 	return await Promise.all(
 		keys.map(async (item) => {
 			item.value = await decrypt(item.value, CONFIG.encryptionKey!)
-			console.log(item);
-			
 			return item
 		})
 	)
 }
-

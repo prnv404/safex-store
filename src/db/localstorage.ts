@@ -3,7 +3,7 @@ import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
 import { Credential, DataStorage, FilePaths, KeyData } from "@types"
 import { decryptAllKey, encrypt } from "@utils"
-import { CONFIG } from "src"
+import { CONFIG } from "@config"
 
 export class LocalDatabase implements DataStorage {
 	private db: Low<KeyData>
@@ -32,7 +32,12 @@ export class LocalDatabase implements DataStorage {
 			data.value = await encrypt(data.value, CONFIG.encryptionKey!)
 			data.id = this.db.data.credentials.length
 			++data.id
-			this.db.data.credentials.push(data)
+			this.db.data.credentials.push({
+				id: data.id,
+				keyName: data.keyName,
+				value: data.value,
+				category: data.category
+			})
 			await this.db.write()
 			return true
 		} catch (e) {
@@ -60,7 +65,7 @@ export class LocalDatabase implements DataStorage {
 		try {
 			const filteredCredentials = this.db.data.credentials.filter((credential) => {
 				const keyNameLower = credential.keyName.toLowerCase()
-				return keyNameLower === searchkey
+				return keyNameLower === searchkey.toLowerCase()
 			})
 			return await decryptAllKey(filteredCredentials)
 		} catch (e) {

@@ -1,6 +1,12 @@
-import figlet from "figlet";
-import chalk from "chalk";
+import figlet from "figlet"
+import chalk from "chalk"
+import ora from "ora"
 
-console.log(chalk.blue(figlet.textSync("SAFEX STORE")))
+export const printLogo = () => {
+	const spinner = ora("Initializing SAFEX STORE").start()
 
-console.log('-----------🔐------------');
+	setTimeout(() => {
+		spinner.stop()
+		console.log(chalk.blue(figlet.textSync("SAFEX STORE")))
+	}, 2000)
+}

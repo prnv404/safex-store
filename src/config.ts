@@ -24,3 +24,9 @@ export const InitializeConfig = async (options: Configuration) => {
 export const LoadConfigurationData = async (): Promise<Configuration> => {
 	return (await YamlConfig.adapter.read()) as Configuration
 }
+
+export let CONFIG: Configuration
+
+export const init = async () => {
+	CONFIG = await LoadConfigurationData()
+}
