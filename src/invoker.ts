@@ -6,36 +6,20 @@ import { CONFIG, init } from "@config"
 /** command invokers */
 
 export const insertKey = async (data: Credential) => {
-	let insertCommand: InsertCommand
 	await init()
-	CONFIG.useMongoDB
-		? (insertCommand = new InsertCommand(new Mongodb(), data))
-		: (insertCommand = new InsertCommand(new LocalDatabase(), data))
-
+	let insertCommand: InsertCommand = getCommandInstance(InsertCommand, data)
 	return await insertCommand.execute()
 }
 
 export const deletKey = async (id: number) => {
 	await init()
-
-	let deletCommand: DeleteCommand
-
-	CONFIG.useMongoDB
-		? (deletCommand = new DeleteCommand(new Mongodb(), id))
-		: (deletCommand = new DeleteCommand(new LocalDatabase(), id))
-
+	let deletCommand: DeleteCommand = getCommandInstance(DeleteCommand, id)
 	return await deletCommand.execute()
 }
 
 export const searchkey = async (keyname: string) => {
 	await init()
-
-	let searchCommand: SearchCommand
-
-	CONFIG.useMongoDB
-		? (searchCommand = new SearchCommand(new Mongodb(), keyname))
-		: (searchCommand = new SearchCommand(new LocalDatabase(), keyname))
-
+	let searchCommand: SearchCommand = getCommandInstance(SearchCommand, keyname)
 	const result = await searchCommand.execute()
 	console.table(result)
 }
@@ -43,11 +27,16 @@ export const searchkey = async (keyname: string) => {
 export const getallKey = async () => {
 	await init()
 
-	let allkeyCommand: AllKeyCommand
-
-	CONFIG.useMongoDB
-		? (allkeyCommand = new AllKeyCommand(new Mongodb()))
-		: (allkeyCommand = new AllKeyCommand(new LocalDatabase()))
+	let allkeyCommand: AllKeyCommand = getCommandInstance(AllKeyCommand)
 
 	return await allkeyCommand.execute()
+}
+
+// helper
+const getCommandInstance = (command: any, ...args: any) => {
+	if (CONFIG.useMongoDB) {
+		return new command(new Mongodb(), ...args)
+	} else {
+		return new command(new LocalDatabase(), ...args)
+	}
 }
