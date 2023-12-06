@@ -1,5 +1,5 @@
-import { LocalDatabase, Mongodb } from "src/db"
-import { Command,Credential } from "@types"
+import { LocalDatabase, Mongodb } from "../db"
+import { Command, Credential } from "../types"
 
 export class SearchCommand implements Command<Promise<Credential[]>> {
 	private _receiver: LocalDatabase | Mongodb

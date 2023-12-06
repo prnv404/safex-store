@@ -1,17 +1,12 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { Command } from "commander"
-import { deletKey, getallKey, insertKey, searchkey } from "../src/invoker"
-import { Configuration } from "@types"
-import { InitializeConfig, init } from "@config"
-import {
-	NameInputPrompt,
-	SelectStoragePrompt,
-	MongodbUrlPompt,
-	SecretKeyInputPrompt,
-	SearchAutoCompletePrompt
-} from "../src/cli/promt"
-import { printLogo } from "../src/cli/ui"
+import { InitializeconfiPrompt } from "./cli"
+import { InitializeConfig } from "./config"
+import { searchkey, deletKey, insertKey, getallKey } from "./invoker"
+import { Configuration } from "./types"
+import figlet from "figlet"
+import chalk from "chalk"
 
 const program = new Command()
 
@@ -19,32 +14,17 @@ program.name("Safex-store").description("CLI to store credentials safely and sec
 
 program
 	.command("init")
-	.description("Initialize your CLI configurations")
+	.description("Initialize SafeX CLI configurations")
 	.action(async () => {
 		const initializeSafeX = async () => {
-			let config: Configuration = {
-				useMongoDB: false,
-				useEncryption: false,
-				name: ""
+			let config = (await InitializeconfiPrompt()) as unknown as Configuration
+			if (config.confirm === false) {
+				process.exit(1)
 			}
-
-			config.name = await NameInputPrompt().run()
-			const storageChoice = await SelectStoragePrompt().run()
-
-			if (storageChoice !== "LocalStorage") {
-				config.useMongoDB = true
-				config.mongoDbUrl = await MongodbUrlPompt().run()
-			}
-
-			config.useEncryption = true
-			config.encryptionKey = await SecretKeyInputPrompt().run()
-
 			await InitializeConfig(config)
-
-			printLogo()
 		}
-
 		await initializeSafeX()
+		console.log(chalk.blue(figlet.textSync("SAFEX STORE")))
 	})
 
 program
@@ -55,17 +35,12 @@ program
 	})
 
 program
-	.command("auto")
-	.description("Auto-suggest search keys")
+	.command("all")
+	.description("get all key in database")
 	.action(async () => {
-		const autoSuggestion = async () => {
-			await init()
-			const allkeys = await getallKey()
-			const keyInput = await SearchAutoCompletePrompt(allkeys).run()
-			console.log(keyInput)
-		}
-
-		await autoSuggestion()
+		const result = await getallKey()
+		console.table(result);
+		
 	})
 
 program
@@ -83,3 +58,7 @@ program
 	})
 
 program.parse(process.argv)
+
+process.on("SIGINT", () => {
+	process.exit(1)
+})

@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from "mongoose"
-import { DataStorage, Credential } from "@types"
-import { decryptAllKey, encrypt } from "@utils"
-import { CONFIG } from "@config"
+import { CONFIG } from "../config"
+import { Credential, DataStorage } from "../types"
+import { encrypt, decryptAllKey } from "../utils"
 
 export const connectMongodb = async (url: string) => {
 	try {
@@ -43,7 +43,7 @@ const KeyStoreSchema = new mongoose.Schema(
 	},
 	{
 		toJSON: {
-			transform(doc, ret:any) {
+			transform(doc, ret: any) {
 				delete ret._id
 				delete ret.__v
 			}
@@ -62,7 +62,7 @@ export class Mongodb implements DataStorage {
 
 	async insert(data: Credential): Promise<boolean> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
+			await connectMongodb(CONFIG.mongourl!)
 			let id = await this.keystore.countDocuments()
 			data.id = id++
 			data.value = await encrypt(data.value, CONFIG.encryptionKey!)
@@ -79,7 +79,7 @@ export class Mongodb implements DataStorage {
 
 	async delete(id: number): Promise<boolean> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
+			await connectMongodb(CONFIG.mongourl!)
 			await this.keystore.deleteOne({ id })
 			console.log("Deleted data with search key:", id)
 			return true
@@ -93,7 +93,7 @@ export class Mongodb implements DataStorage {
 
 	async searchKey(searchKey: string): Promise<Credential[]> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
+			await connectMongodb(CONFIG.mongourl!)
 			const query = { keyName: { $eq: new RegExp(searchKey, "i") } }
 			const results = await this.keystore.find(query)
 			const transformedResults = results.map((doc) => doc.toJSON())
@@ -106,14 +106,11 @@ export class Mongodb implements DataStorage {
 		}
 	}
 
-	async getAllKey(): Promise<string[]> {
+	async getAllKey(): Promise<Credential[]> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
-			const results = await this.keystore.find({})
-			const transformedResults = results.map((doc) => {
-				return doc.keyName
-			})
-			return transformedResults
+			await connectMongodb(CONFIG.mongourl!)
+			const results = await this.keystore.find({}, { keyName: 1, category: 1, id: 1, value: 1 })
+			return await decryptAllKey(results)
 		} catch (e) {
 			console.log(e)
 			return []
@@ -124,7 +121,7 @@ export class Mongodb implements DataStorage {
 
 	async getCategoryItem(category: string): Promise<Credential[]> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
+			await connectMongodb(CONFIG.mongourl!)
 			const result = await this.keystore.find({ category: new RegExp(category, "i") })
 			return await decryptAllKey(result)
 		} catch (e) {
@@ -137,7 +134,7 @@ export class Mongodb implements DataStorage {
 
 	async resetDatabase(): Promise<boolean> {
 		try {
-			await connectMongodb(CONFIG.mongoDbUrl!)
+			await connectMongodb(CONFIG.mongourl!)
 			await this.keystore.deleteMany({})
 			return true
 		} catch (e) {

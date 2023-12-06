@@ -1,9 +1,15 @@
-import fs from "fs"
+import fs from "node:fs"
 import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
-import { Credential, DataStorage, FilePaths, KeyData } from "@types"
-import { decryptAllKey, encrypt } from "@utils"
-import { CONFIG } from "@config"
+import { CONFIG } from "../config"
+import { DataStorage, KeyData, Credential, FilePaths } from "../types"
+import { encrypt, decryptAllKey } from "../utils"
+import { fileURLToPath } from "url"
+import { dirname } from "path"
+
+const currentFileUrl = import.meta.url
+const currentFilePath = fileURLToPath(currentFileUrl)
+const rootPath = dirname(currentFilePath)
 
 export class LocalDatabase implements DataStorage {
 	private db: Low<KeyData>
@@ -12,14 +18,14 @@ export class LocalDatabase implements DataStorage {
 		const result = this.init()
 		let data: Credential[]
 		typeof result === "boolean" ? (data = []) : (data = result)
-		const adapter = new JSONFile<KeyData>(FilePaths.JSON_DATA)
+		const adapter = new JSONFile<KeyData>(rootPath + FilePaths.JSON_DATA)
 		this.db = new Low(adapter, { credentials: data })
 	}
 
 	private init(): Credential[] | boolean {
 		try {
-			fs.accessSync(FilePaths.JSON_DATA, fs.constants.F_OK)
-			const rawData = fs.readFileSync(FilePaths.JSON_DATA, "utf-8")
+			fs.accessSync(rootPath + FilePaths.JSON_DATA, fs.constants.F_OK)
+			const rawData = fs.readFileSync(rootPath + FilePaths.JSON_DATA, "utf-8")
 			const data = JSON.parse(rawData) as KeyData
 			return data.credentials
 		} catch (e) {
@@ -74,11 +80,10 @@ export class LocalDatabase implements DataStorage {
 		}
 	}
 
-	async getAllKey(): Promise<string[]> {
+	async getAllKey(): Promise<Credential[]> {
 		try {
-			const result = this.db.data.credentials
-			const transformtedresult = result.map((doc) => doc.keyName)
-			return transformtedresult
+			const results = this.db.data.credentials
+			return await decryptAllKey(results)
 		} catch (e) {
 			console.log(e)
 			return []

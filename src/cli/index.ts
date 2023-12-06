@@ -1,2 +1,2 @@
-export * from './promt'
+export * from './prompts'
 export * from './ui'

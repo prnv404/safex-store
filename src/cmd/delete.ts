@@ -1,5 +1,5 @@
-import { LocalDatabase, Mongodb } from "src/db"
-import { Command } from "@types"
+import { LocalDatabase, Mongodb } from "../db"
+import { Command } from "../types"
 
 export class DeleteCommand implements Command<Promise<boolean>> {
 	private _receiver: LocalDatabase | Mongodb
