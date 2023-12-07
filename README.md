@@ -29,6 +29,11 @@ npm install -g .
 
 ## Usage Guide 
 
+#### initialize safex
+```
+safex init
+```
+
 #### Insert key 
 
 ```
