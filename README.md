@@ -10,21 +10,12 @@
 npm install -g bun
 ```
 
-#### clone the repo
+#### Install safex package globally
 
 ```
-git clone https://github.com/prnv404/safex-store.git
+npm install -g safex-store
 ```
 
-#### change directory and install dependencies
-```
-cd safex-store && bun install
-```
-
-#### install safex to globally so we can use safex command
-```
-npm install -g .
-```
 <br>
 
 ## Usage Guide 
