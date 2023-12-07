@@ -1,7 +1,8 @@
 import mongoose, { Document, Model } from "mongoose"
-import { CONFIG } from "../config"
-import { Credential, DataStorage } from "../types"
-import { encrypt, decryptAllKey } from "../utils"
+import { CONFIG } from "src/config.js"
+import { DataStorage,Credential } from "src/types.js"
+import { encrypt, decryptAllKey } from "src/utils/index.js"
+
 
 export const connectMongodb = async (url: string) => {
 	try {

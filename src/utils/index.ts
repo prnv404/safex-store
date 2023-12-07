@@ -1,6 +1,6 @@
 import * as crypto from "node:crypto"
-import { Credential } from "../types"
-import { CONFIG } from "../config"
+import { Credential } from "../types.js"
+import { CONFIG } from "../config.js"
 
 export const encrypt = (text: string, secretKey: string): Promise<string> => {
 	return new Promise((resolve, reject) => {

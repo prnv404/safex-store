@@ -1,11 +1,11 @@
 import fs from "node:fs"
 import { Low } from "lowdb"
 import { JSONFile } from "lowdb/node"
-import { CONFIG } from "../config"
-import { DataStorage, KeyData, Credential, FilePaths } from "../types"
-import { encrypt, decryptAllKey } from "../utils"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+import { CONFIG } from "src/config.js"
+import { DataStorage, KeyData, FilePaths,Credential} from "src/types.js"
+import { encrypt, decryptAllKey } from "src/utils/index.js"
 
 const currentFileUrl = import.meta.url
 const currentFilePath = fileURLToPath(currentFileUrl)

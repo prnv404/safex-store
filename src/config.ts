@@ -1,5 +1,5 @@
 import { Low } from "lowdb"
-import { Configuration, FilePaths } from "./types"
+import { Configuration, FilePaths } from "./types.js"
 import { TextFile } from "lowdb/node"
 import YAML from "yaml"
 import { fileURLToPath } from "url"

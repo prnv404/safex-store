@@ -4,6 +4,7 @@
 	"author": "pranav s",
 	"description": "A cli tool for storing credentials",
 	"main": "src/safex.ts",
+	"type": "module",
 	"scripts": {
 		"build": "tsc",
 		"start": "tsx src/safex.ts",

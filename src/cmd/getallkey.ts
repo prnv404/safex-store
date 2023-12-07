@@ -1,5 +1,7 @@
-import { LocalDatabase, Mongodb } from "../db"
-import { Command, Credential } from "../types"
+import { LocalDatabase } from "src/db/local.js"
+import { Mongodb } from "src/db/mongo.js"
+import { Command ,Credential} from "src/types.js"
+
 
 export class AllKeyCommand implements Command<Promise<Credential[]>> {
 	private _receiver: LocalDatabase | Mongodb

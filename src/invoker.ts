@@ -1,14 +1,16 @@
 /** command invokers */
 
-import { DeleteCommand } from "./cmd/delete"
-import { AllKeyCommand } from "./cmd/getallkey"
-import { InsertCommand } from "./cmd/insert"
-import { SearchCommand } from "./cmd/search"
-import { CONFIG, init } from "./config"
-import { Mongodb, LocalDatabase } from "./db"
-import { Credential } from "./types"
+import { DeleteCommand } from "./cmd/delete.js"
+import { AllKeyCommand } from "./cmd/getallkey.js"
+import { InsertCommand } from "./cmd/insert.js"
+import { SearchCommand } from "./cmd/search.js"
+import { init, CONFIG } from "./config.js"
+import { LocalDatabase } from "./db/local.js"
+import { Mongodb } from "./db/mongo.js"
+import { Credential } from "./types.js"
 
-export const insertKey = async (data: Credential) => {
+
+export const insertKey = async (data:Credential ) => {
 	let insertCommand: InsertCommand = await getCommandInstance(InsertCommand, data)
 	return await insertCommand.execute()
 }

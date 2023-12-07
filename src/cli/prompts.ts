@@ -1,5 +1,5 @@
 import inquirer from "inquirer"
-import { Configuration } from "../types"
+import { Configuration } from "../types.js"
 
 const configurationQuestions = [
 	{
