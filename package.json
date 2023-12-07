@@ -37,6 +37,6 @@
     "typescript": "^5.0.0"
   },
   "bin": {
-    "safex-store": "src/safex.ts"
+    "safex": "src/safex.ts"
   }
 }

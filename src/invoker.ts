@@ -30,12 +30,6 @@ export const getallKey = async () => {
 	return result
 }
 
-export const getAllKeyName = async () => {
-	const allKeyCommand: AllKeyCommand = await getCommandInstance(AllKeyCommand)
-	const allKeys = await allKeyCommand.execute()
-	const allKeyNames = allKeys.map((item) => item.keyName)
-	return allKeyNames
-}
 
 // helper
 const getCommandInstance = async (command: any, ...args: any) => {

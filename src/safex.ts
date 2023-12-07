@@ -3,8 +3,8 @@
 import { Command } from "commander"
 import { SearchAutoCompletePrompt, promptUser } from "./cli/prompts"
 import { InitializeConfig } from "./config"
-import { searchkey, deletKey, insertKey, getallKey, getAllKeyName } from "./invoker"
-import { Configuration } from "./types"
+import { searchkey, deletKey, insertKey, getallKey } from "./invoker"
+import { Configuration, Credential } from "./types"
 import figlet from "figlet"
 import chalk from "chalk"
 import { printKeyToConsole, printResultasTable } from "./cli/ui"
@@ -51,8 +51,17 @@ program
 	.command("auto")
 	.description("get all key in database")
 	.action(async () => {
-		const result = await getAllKeyName()
-		await SearchAutoCompletePrompt(result).run()
+		const getAllKeyName = (allKeys: Credential[]) => {
+			const allKeyNames = allKeys.map((item) => item.keyName)
+			return allKeyNames
+		}
+		const allKeys = await getallKey()
+		const keyNames = getAllKeyName(allKeys)
+		const selectedKey = await SearchAutoCompletePrompt(keyNames).run()
+		const key = allKeys.find((item) => item.keyName === selectedKey)
+		if (key) {
+			printKeyToConsole(key.keyName, key.value)
+		}
 	})
 
 program
