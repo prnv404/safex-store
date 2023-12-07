@@ -1,5 +1,5 @@
 {
-  "name": "safex",
+  "name": "safex-store",
   "module": "src/safex.ts",
   "type": "module",
   "scripts": {
