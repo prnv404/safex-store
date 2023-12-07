@@ -1,2 +1,2 @@
-export * from "./local.js"
-export * from "./mongo.js"
+export * from "./local"
+export * from "./mongo"

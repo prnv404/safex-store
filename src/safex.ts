@@ -1,13 +1,13 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
+import { Command } from "commander"
+import { SearchAutoCompletePrompt, promptUser } from "./cli/prompts"
+import { InitializeConfig } from "./config"
+import { searchkey, deletKey, insertKey, getallKey, getAllKeyName } from "./invoker"
+import { Configuration } from "./types"
 import figlet from "figlet"
 import chalk from "chalk"
-import { printKeyToConsole, printResultasTable } from "./cli/ui.js"
-import { Command } from "node_modules/commander/typings/index.js"
-import { promptUser } from "./cli/prompts.js"
-import { InitializeConfig } from "./config.js"
-import { searchkey, getallKey, deletKey } from "./invoker.js"
-import { Configuration } from "./types.js"
+import { printKeyToConsole, printResultasTable } from "./cli/ui"
 
 const program = new Command()
 
@@ -34,7 +34,7 @@ program
 	.description("Search for a specific key")
 	.action(async (key) => {
 		const result = await searchkey(key)
-		result.forEach((item: { keyName: string; value: string }) => {
+		result.forEach((item) => {
 			printKeyToConsole(item.keyName, item.value)
 		})
 	})
@@ -48,18 +48,26 @@ program
 	})
 
 program
+	.command("auto")
+	.description("get all key in database")
+	.action(async () => {
+		const result = await getAllKeyName()
+		await SearchAutoCompletePrompt(result).run()
+	})
+
+program
 	.command("delete <id>")
 	.description("Delete a key by its ID")
 	.action(async (id) => {
 		await deletKey(+id)
 	})
 
-// program
-// 	.command("insert <keyname> <value>")
-// 	.description("Insert a new key with a keyname and value")
-// 	.action(async (keyname, value) => {
-// 		return await insertKey({ keyName: keyname, value, category: "default" })
-// 	})
+program
+	.command("insert <keyname> <value>")
+	.description("Insert a new key with a keyname and value")
+	.action(async (key, value) => {
+		await insertKey({ keyName: key, value, category: "default" })
+	})
 
 program.parse(process.argv)
 
