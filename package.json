@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "safex-store",
   "module": "src/safex.ts",
   "type": "module",
